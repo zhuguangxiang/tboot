@@ -14,7 +14,24 @@
     .type _start, #function
     .global _start
 _start:
-	
+	b	reset
+	ldr pc, [pc, #tos_vector + 4 - . - PIPELINE]
+	ldr pc, [pc, #tos_vector + 8 - . - PIPELINE]
+	ldr pc, [pc, #tos_vector + 12 - . - PIPELINE]
+	ldr pc, [pc, #tos_vector + 16 - . - PIPELINE]
+	ldr pc, [pc, #tos_vector + 20 - . - PIPELINE]
+	ldr pc, [pc, #tos_vector + 24 - . - PIPELINE]
+	ldr pc, [pc, #tos_vector + 28 - . - PIPELINE]
+tos_vector:
+	.long 0x30000000
+    .long 0x30000004
+	.long 0x30000008
+	.long 0x3000000c
+	.long 0x30000010
+	.long 0x30000014
+	.long 0x30000018
+	.long 0x3000001c
+reset:	
 	adr	r0, _start					/* r0 <- current position of code, sub	r0, pc, #8  */
 	ldr	r1, _TEXT_BASE				/* test if we run from flash or RAM */
 	cmp     r0, r1                  /* don't reloc if equal */
